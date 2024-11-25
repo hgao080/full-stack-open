@@ -8,6 +8,8 @@ sequenceDiagram
     server-->>browser: URL Redirect
     deactivate server
 
+    Note left of server: The server executes the corresponding code that handles POST requests
+
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
     server-->>browser: HTML document
