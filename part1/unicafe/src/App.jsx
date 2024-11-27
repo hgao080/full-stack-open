@@ -22,6 +22,12 @@ const Statistics = (props) => {
   const {good, neutral, bad} = props
   const all = good + neutral + bad
 
+  if (all == 0) {
+    return (
+      <p>No feedback given</p>
+    )
+  }
+
   return (
     <div>
       <Title text="Statistics"></Title>
