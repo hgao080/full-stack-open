@@ -38,7 +38,6 @@ const App = () => {
     const nameObject = {
       name: newName,
       number: newNumber,
-      id: String(persons.length + 1),
     };
 
     personsService
@@ -49,6 +48,18 @@ const App = () => {
         setNewNumber("");
       })
   };
+
+  const onDelete = (personObject) => {
+    if (window.confirm(`Delete ${personObject.name}?`)) {
+      personsService
+      .removePerson(personObject.id)
+      .then(removedPerson => {
+        setPersons(persons.filter(person => removedPerson.id !== person.id))
+      })
+    }
+    console.log("User canceled delete");
+    
+  }
 
   const handleNameChange = (e) => {
     setNewName(e.target.value);
@@ -76,7 +87,7 @@ const App = () => {
       ></PersonForm>
       <h2>Numbers</h2>
       {personsToShow.map((person) => (
-        <Details key={person.id} person={person}></Details>
+        <Details key={person.id} person={person} onDelete={onDelete}></Details>
       ))}
     </div>
   );
