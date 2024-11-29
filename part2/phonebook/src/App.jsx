@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import axios from 'axios'
 
+import personsService from './services/persons'
 import Details from "./components/Details";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
@@ -20,11 +20,11 @@ const App = () => {
         );
 
   useEffect(() => {
-    axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
-      setPersons(response.data)
-    })
+    personsService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
+      })
   }, []);
 
   const addPerson = (e) => {
@@ -41,9 +41,13 @@ const App = () => {
       id: String(persons.length + 1),
     };
 
-    setPersons(persons.concat(nameObject));
-    setNewName("");
-    setNewNumber("");
+    personsService
+      .create(nameObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson));
+        setNewName("");
+        setNewNumber("");
+      })
   };
 
   const handleNameChange = (e) => {
